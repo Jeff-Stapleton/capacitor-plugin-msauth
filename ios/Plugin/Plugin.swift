@@ -142,7 +142,7 @@ public class MsAuthPlugin: CAPPlugin {
                         for tenant in tenants {
                             if let tenantId = tenant.tenantId {
                                 // Find first account where authority url matches tenant id
-                                if authorityUrl.absoluteString.contains(tenantId) { 
+                                if authorityUrl.absoluteString.contains(tenantId) {
                                     completion(account)
                                     return
                                 }
@@ -157,7 +157,6 @@ public class MsAuthPlugin: CAPPlugin {
         } catch {
             print("Unable to access cached accounts list")
         }
-
 
         applicationContext.getCurrentAccount(with: msalParameters, completionBlock: { (currentAccount, _, error) in
             if let error = error {
