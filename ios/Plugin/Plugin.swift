@@ -8,7 +8,25 @@ import MSAL
  */
 @objc(MsAuthPlugin)
 public class MsAuthPlugin: CAPPlugin {
-    @objc func login(_ call: CAPPluginCall) {
+    @objc func initialize(_ call: CAPPluginCall) {
+        guard let context = createContextFromPluginCall(call) else {
+            call.reject("Unable to create context, check logs")
+            return
+        }
+
+        guard let authorityURL = URL(string: kAuthority) else {
+            self.updateLogging(text: "Unable to create authority URL")
+            return
+        }
+
+        let authority = try MSALAADAuthority(url: authorityURL)
+
+        let msalConfiguration = MSALPublicClientApplicationConfig(clientId: kClientID, redirectUri: nil, authority: authority)
+        self.applicationContext = try MSALPublicClientApplication(configuration: msalConfiguration)
+        self.initWebViewParams()
+    }
+
+    @objc func loginPopup(_ call: CAPPluginCall) {
         guard let context = createContextFromPluginCall(call) else {
             call.reject("Unable to create context, check logs")
             return
@@ -39,7 +57,69 @@ public class MsAuthPlugin: CAPPlugin {
         }
     }
 
-    @objc func logout(_ call: CAPPluginCall) {
+    @objc func logoutPopup(_ call: CAPPluginCall) {
+        guard let context = createContextFromPluginCall(call) else {
+            call.reject("Unable to create context, check logs")
+            return
+        }
+
+        let scopes = call.getArray("scopes", String.self) ?? []
+
+        let completion: (MSALResult?) -> Void = { msalResult in
+            guard let result = msalResult else {
+                call.reject("Unable to obtain access token")
+                return
+            }
+
+            call.resolve([
+                "accessToken": result.accessToken,
+                "idToken": result.idToken,
+                "scopes": result.scopes
+            ])
+        }
+
+        loadCurrentAccount(applicationContext: context) { (account) in
+            guard let currentAccount = account else {
+                self.acquireTokenInteractively(applicationContext: context, scopes: scopes, completion: completion)
+                return
+            }
+
+            self.acquireTokenSilently(applicationContext: context, scopes: scopes, account: currentAccount, completion: completion)
+        }
+    }
+
+    @objc func acquireTokenSilent(_ call: CAPPluginCall) {
+        guard let context = createContextFromPluginCall(call) else {
+            call.reject("Unable to create context, check logs")
+            return
+        }
+
+        let scopes = call.getArray("scopes", String.self) ?? []
+
+        let completion: (MSALResult?) -> Void = { msalResult in
+            guard let result = msalResult else {
+                call.reject("Unable to obtain access token")
+                return
+            }
+
+            call.resolve([
+                "accessToken": result.accessToken,
+                "idToken": result.idToken,
+                "scopes": result.scopes
+            ])
+        }
+
+        loadCurrentAccount(applicationContext: context) { (account) in
+            guard let currentAccount = account else {
+                self.acquireTokenInteractively(applicationContext: context, scopes: scopes, completion: completion)
+                return
+            }
+
+            self.acquireTokenSilently(applicationContext: context, scopes: scopes, account: currentAccount, completion: completion)
+        }
+    }
+
+    @objc func setActiveAccount(_ call: CAPPluginCall) {
         guard let context = createContextFromPluginCall(call) else {
             call.reject("Unable to create context, check logs")
             return

@@ -15,10 +15,12 @@ export class MsAuth extends WebPlugin implements MsAuthPlugin {
   private msalInstance: PublicClientApplication | undefined;
 
   async initialize(config: Configuration): Promise<void> {
+    console.log("calling initialize v1.0");
     this.msalInstance = new PublicClientApplication(config);
   }
 
   async loginPopup(popupRequest: PopupRequest): Promise<AuthenticationResult> {
+    console.log("calling loginPopup v1.0");
     if (!this.msalInstance) {
       throw new Error('Msal client is not initialized, please call initialise(config) first');
     }
@@ -27,6 +29,7 @@ export class MsAuth extends WebPlugin implements MsAuthPlugin {
   }
 
   async logoutPopup(endSessionPopupRequest: EndSessionPopupRequest): Promise<void> {
+    console.log("calling logoutPopup v1.0");
     if (!this.msalInstance) {
       throw new Error('Msal client is not initialized, please call initialise(config) first');
     }
@@ -35,6 +38,7 @@ export class MsAuth extends WebPlugin implements MsAuthPlugin {
   }
 
   async acquireTokenSilent(silentRequest: SilentRequest): Promise<AuthenticationResult> {
+    console.log("calling acquireTokenSilent v1.0");
     if (!this.msalInstance) {
       throw new Error('Msal client is not initialized, please call initialise(config) first');
     }
@@ -43,6 +47,7 @@ export class MsAuth extends WebPlugin implements MsAuthPlugin {
   }
 
   async setActiveAccount(accountInfo: AccountInfo): Promise<void> {
+    console.log("calling setActiveAccount v1.0");
     if (!this.msalInstance) {
       throw new Error('Msal client is not initialized, please call initialise(config) first');
     }
