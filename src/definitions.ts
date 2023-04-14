@@ -1,18 +1,21 @@
-import type {
-  AccountInfo,
-  AuthenticationResult,
-  Configuration,
-  EndSessionPopupRequest,
-  PopupRequest,
-  SilentRequest,
-} from '@azure/msal-browser';
+export interface BaseOptions {
+  clientId: string;
+  tenant?: string;
+  domainHint?: string;
+  authorityType?: 'AAD' | 'B2C';
+  authorityUrl?: string;
+  knownAuthorities?: string[];
+  keyHash?: string;
+}
 
-export type { Configuration, SilentRequest, PopupRequest, EndSessionPopupRequest, AuthenticationResult, AccountInfo };
+export interface LoginOptions extends BaseOptions {
+  scopes?: string[];
+}
+
+export type LogoutOptions = BaseOptions;
 
 export interface MsAuthPlugin {
-  initialize(options: Configuration): Promise<void>;
-  loginPopup(popupRequest: PopupRequest): Promise<AuthenticationResult>;
-  logoutPopup(endSessionPopupRequest: EndSessionPopupRequest): Promise<void>;
-  acquireTokenSilent(silentRequest: SilentRequest): Promise<AuthenticationResult>;
-  setActiveAccount(accountInfo: AccountInfo): Promise<void>;
+  login(options: LoginOptions): Promise<{ accessToken: string; idToken: string; scopes: string[] }>;
+  logout(options: LogoutOptions): Promise<void>;
+  acquireTokenSilent(options: LoginOptions): Promise<{ accessToken: string; idToken: string; scopes: string[] }>;
 }
