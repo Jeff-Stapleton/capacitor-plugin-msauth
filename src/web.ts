@@ -47,9 +47,16 @@ export class MsAuth extends WebPlugin implements MsAuthPlugin {
   async acquireTokenSilent(options: WebLoginOptions): Promise<AuthResult> {
     const context = this.createContext(options);
 
-    return await this.acquireTokenSilently(context, options.scopes).catch(() => {
-      throw new Error('Not signed in');
-    });
+    try {
+      return await this.acquireTokenSilently(context, options.scopes).catch(() => {
+          throw new Error("not signed in");
+        }
+      );
+    } catch (error) {
+      console.error('MSAL: Error occurred while logging in', error);
+
+      throw error;
+    }
   }
 
   private createContext(options: WebBaseOptions) {
@@ -74,12 +81,13 @@ export class MsAuth extends WebPlugin implements MsAuthPlugin {
   }
 
   private async acquireTokenInteractively(context: PublicClientApplication, scopes: string[]): Promise<AuthResult> {
-    const { accessToken, idToken } = await context.acquireTokenPopup({
+    const authResult = await context.acquireTokenPopup({
       scopes,
       prompt: 'select_account',
     });
 
-    return { accessToken, idToken, scopes };
+    context.setActiveAccount(authResult.account);
+    return authResult;
   }
 
   private async acquireTokenSilently(context: PublicClientApplication, scopes: string[]): Promise<AuthResult> {
