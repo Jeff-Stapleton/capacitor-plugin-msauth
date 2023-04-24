@@ -1,6 +1,6 @@
 {
   "name": "@programmer-jeff/capacitor-plugin-msauth",
-  "version": "1.6.0",
+  "version": "1.6.2",
   "description": "This plugin enables MSAL support for Capacitor.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -13,14 +13,14 @@
     "ios/Plugin/",
     "ProgrammerJeffCapacitorPluginMsauth.podspec"
   ],
-  "author": "Recognize",
+  "author": "programmer-jeff",
   "license": "LGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/recognizegroup/capacitor-plugin-msauth.git"
+    "url": "git+https://github.com/Jeff-Stapleton/capacitor-plugin-msauth.git"
   },
   "bugs": {
-    "url": "https://github.com/recognizegroup/capacitor-plugin-msauth/issues"
+    "url": "https://github.com/Jeff-Stapleton/capacitor-plugin-msauth/issues"
   },
   "keywords": [
     "capacitor",
@@ -94,5 +94,5 @@
       "npm run precommit"
     ]
   },
-  "homepage": "https://github.com/recognizegroup/capacitor-plugin-msauth#readme"
+  "homepage": "https://github.com/Jeff-Stapleton/capacitor-plugin-msauth#readme"
 }
