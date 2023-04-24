@@ -99,7 +99,7 @@ public class MsAuthPlugin: CAPPlugin {
 
         loadCurrentAccount(applicationContext: context) { (account) in
             guard let currentAccount = account else {
-                self.acquireTokenInteractively(applicationContext: context, scopes: scopes, completion: completion)
+                call.reject("MSAL: Error occurred while logging in")
                 return
             }
 

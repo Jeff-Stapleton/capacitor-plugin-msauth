@@ -1,6 +1,6 @@
 {
   "name": "@programmer-jeff/capacitor-plugin-msauth",
-  "version": "1.3.0",
+  "version": "1.6.0",
   "description": "This plugin enables MSAL support for Capacitor.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "RecognizebvCapacitorPluginMsauth.podspec"
+    "ProgrammerJeffCapacitorPluginMsauth.podspec"
   ],
   "author": "Recognize",
   "license": "LGPL-3.0",
