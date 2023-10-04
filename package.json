@@ -1,6 +1,6 @@
 {
   "name": "@programmer-jeff/capacitor-plugin-msauth",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "description": "This plugin enables MSAL support for Capacitor.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",

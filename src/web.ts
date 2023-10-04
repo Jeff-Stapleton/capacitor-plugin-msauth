@@ -48,10 +48,10 @@ export class MsAuth extends WebPlugin implements MsAuthPlugin {
       this.acquireTokenSilently(this.context, options.scopes).catch(() => {
         if (options.loginMethod === 'Popup') {
           console.trace('logging in with popup');
-          this.acquireTokenPopup(this.context, options.scopes);
+          return this.acquireTokenPopup(this.context, options.scopes);
         } else {
           console.trace('logging in with redirect');
-          this.acquireTokenRedirect(this.context, options.scopes);
+          return this.acquireTokenRedirect(this.context, options.scopes);
         }
       });
     } catch (error) {
