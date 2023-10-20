@@ -107,14 +107,12 @@ export class MsAuth extends WebPlugin implements MsAuthPlugin {
   private acquireTokenRedirect(context: PublicClientApplication, scopes: string[]): void {
     context.acquireTokenRedirect({
       scopes,
-      prompt: 'select_account',
     });
   }
 
   private async acquireTokenPopup(context: PublicClientApplication, scopes: string[]): Promise<void> {
     const authResult = await context.acquireTokenPopup({
       scopes,
-      prompt: 'select_account',
     });
 
     context.setActiveAccount(authResult.account);
